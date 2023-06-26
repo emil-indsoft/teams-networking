@@ -19,37 +19,40 @@
 
     <div id="main">
       <input type="search" name="search" id="searchteams" />🔎
-      <table id="teamsTable">
-        <thead>
-          <tr>
-            <th>Promotion</th>
-            <th>Members</th>
-            <th>Project Name</th>
-            <th>Project URL</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody></tbody>
-        <tfoot>
-          <tr>
-            <td>
-              <input type="text" name="promotion" id="promotion" placeholder="Enter promotion" />
-            </td>
-            <td>
-              <input type="text" name="members" id="members" placeholder="Enter member" />
-            </td>
-            <td>
-              <input type="text" name="name" id="name" placeholder="Enter project" />
-            </td>
-            <td>
-              <input type="text" name="url" id="url" placeholder="Enter url" />
-            </td>
-            <td>
-              <buton type="submit">💾</buton>
-            </td>
-          </tr>
-        </tfoot>
-      </table>
+      <form id="teamsForm" action="" method="get">
+        <table id="teamsTable">
+          <thead>
+            <tr>
+              <th>Promotion</th>
+              <th>Members</th>
+              <th>Project Name</th>
+              <th>Project URL</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+          <tfoot>
+            <tr>
+              <td>
+                <input type="text" name="promotion" id="promotion" placeholder="Enter promotion" required />
+              </td>
+              <td>
+                <input type="text" name="members" id="members" placeholder="Enter member" required />
+              </td>
+              <td>
+                <input type="text" name="name" id="name" placeholder="Enter project" required />
+              </td>
+              <td>
+                <input type="text" name="url" id="url" placeholder="Enter url" required />
+              </td>
+              <td>
+                <buton type="submit">💾</buton>
+                <buton type="reset">✖</buton>
+              </td>
+            </tr>
+          </tfoot>
+        </table>
+      </form>
     </div>
 
     <footer>

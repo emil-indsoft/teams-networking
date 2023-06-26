@@ -4,6 +4,7 @@ function $(selector) {
   return document.querySelector(selector);
 }
 
+let editId;
 let allTeams = [];
 
 function deleteTeamRequest(id) {
@@ -22,13 +23,7 @@ function updateTeamRequest() {
     headers: {
       "Content-Type": "application/json"
     },
-    body: JSON.stringify({
-      id: "fedcba1610310163146",
-      promotion: "WON3",
-      members: "UpdatedName",
-      name: "Name",
-      url: "https://github.com/nmatei/teams-networking"
-    })
+    body: JSON.stringify({ team }).then(r => r.json)
   });
 }
 
@@ -66,6 +61,7 @@ function loadTeams() {
 }
 
 function startEdit(id) {
+  editId = id;
   const team = allTeams.find(team => team.id == id);
   console.warn("start edit", team);
 
@@ -75,10 +71,32 @@ function startEdit(id) {
   $("input[name=url]").value = team.url;
 }
 
+function onSubmit(e) {
+  e.preventDefault();
+  const promotion = $("#promotion").value;
+  const members = $("#members").value;
+  const name = $("input[name=name]").value;
+  const url = $("input[name=url]").value;
+  const team = {
+    id: editId,
+    promotion,
+    members,
+    name: name,
+    url: url
+  };
+  console.warn("submit", team);
+  updateTeamRequest(team).then(status => {
+    if (status.success) {
+      // v.1
+      window.location.reload();
+    }
+  });
+}
+
 function initEvents() {
   $("#teamsTable tbody").addEventListener("click", e => {
-    const id = e.target.dataset.id;
     if (e.target.matches("a.remove-btn")) {
+      const id = e.target.dataset.id;
       //console.warn("remove %o", id);
       deleteTeamRequest(id).then(status => {
         if (status.success) {
@@ -87,9 +105,12 @@ function initEvents() {
         }
       });
     } else if (e.target.matches("a.edit-btn")) {
+      const id = e.target.dataset.id;
       startEdit(id);
     }
   });
+
+  $("#teamsForm").addEventListener("submit", onSubmit);
 }
 
 loadTeams();
