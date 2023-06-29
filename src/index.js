@@ -113,9 +113,16 @@ function onSubmit(e) {
 }
 
 function searchTeams(e) {
-  let searchText = e.target.value;
-  console.warn(searchText);
-  console.warn(allTeams);
+  let searchText = e.target.value.toLowerCase();
+  let filteredTeams = allTeams.filter(team => {
+    return (
+      team.promotion.toLowerCase().includes(searchText) ||
+      team.members.toLowerCase().includes(searchText) ||
+      team.name.toLowerCase().includes(searchText) ||
+      team.url.toLowerCase().includes(searchText)
+    );
+  });
+  displayTeams(filteredTeams);
 }
 
 function initEvents() {
