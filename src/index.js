@@ -74,25 +74,33 @@ function startEdit(id) {
   editId = id;
   const team = allTeams.find(team => team.id == id);
   //console.warn("start edit", team);
+  setTeamValues(team);
+}
 
+function setTeamValues(team) {
   $("#promotion").value = team.promotion;
   $("#members").value = team.members;
   $("input[name=name]").value = team.name;
   $("input[name=url]").value = team.url;
 }
 
-function onSubmit(e) {
-  e.preventDefault();
+function getTeamValues() {
   const promotion = $("#promotion").value;
   const members = $("#members").value;
   const name = $("input[name=name]").value;
   const url = $("input[name=url]").value;
-  const team = {
+  return {
     promotion,
     members,
     name: name,
     url: url
   };
+}
+
+function onSubmit(e) {
+  e.preventDefault();
+  const team = getTeamValues();
+
   if (editId) {
     team.id = editId;
     //console.warn("submit", team);
