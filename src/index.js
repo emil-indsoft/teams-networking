@@ -130,6 +130,10 @@ function initEvents() {
   });
 
   $("#teamsForm").addEventListener("submit", onSubmit);
+  $("#teamsForm").addEventListener("reset", () => {
+    console.info("reset");
+    editId = undefined;
+  });
 }
 
 loadTeams();

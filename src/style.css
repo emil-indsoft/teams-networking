@@ -67,10 +67,6 @@ header h2 {
   color: #f5f5f5;
 }
 
-#teamsTable tfoot input {
-  min-width: 100%;
-}
-
 .remove-btn:hover {
   cursor: pointer;
   text-decoration: underline;
