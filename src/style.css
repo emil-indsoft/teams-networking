@@ -27,7 +27,6 @@ footer a {
 
 footer a :hover {
   background-color: #08c2dacb;
-
   transition: 0.5s;
 }
 
@@ -92,11 +91,24 @@ header h2 {
 #teamsTable th,
 #teamsTable td {
   border: 1px solid #057988;
+  padding: 5px;
 }
 
 #teamsTable th {
   background-color: #0798abfa;
   color: #f5f5f5;
+}
+
+#teamsTable tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+#teamsTable tfoot input {
+  width: 100%;
+}
+
+#teamsTable tfoot input:not([type="image" i]) {
+  box-sizing: border-box;
 }
 
 .remove-btn:hover {
