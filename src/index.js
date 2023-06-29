@@ -52,7 +52,7 @@ function getTeamAsHTML(team) {
 
 function displayTeams(teams) {
   const teamsHTML = teams.map(getTeamAsHTML);
-  console.warn("teamsHTML", teamsHTML);
+  //console.warn("teamsHTML", teamsHTML);
   $("#teamsTable tbody").innerHTML = teamsHTML.join("");
 }
 
@@ -73,7 +73,7 @@ function loadTeams() {
 function startEdit(id) {
   editId = id;
   const team = allTeams.find(team => team.id == id);
-  console.warn("start edit", team);
+  //console.warn("start edit", team);
 
   $("#promotion").value = team.promotion;
   $("#members").value = team.members;
@@ -131,7 +131,7 @@ function initEvents() {
 
   $("#teamsForm").addEventListener("submit", onSubmit);
   $("#teamsForm").addEventListener("reset", () => {
-    console.info("reset");
+    //console.info("reset");
     editId = undefined;
   });
 }
