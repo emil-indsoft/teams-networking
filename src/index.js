@@ -112,24 +112,20 @@ function onSubmit(e) {
   }
 }
 
-function searchTeams(e) {
-  const searchText = e.target.value.toLowerCase();
-  const filteredTeams = allTeams.filter(team => {
-    const maches = Object.entries(team).some(entry => {
+function filterTeams(allTeams, searchText) {
+  return allTeams.filter(team => {
+    return Object.entries(team).some(entry => {
       if (entry[0] !== "id") {
         return entry[1].toLowerCase().includes(searchText);
       }
     });
-    return maches;
-
-    // return (
-    //   team.promotion.toLowerCase().includes(searchText) ||
-    //   team.members.toLowerCase().includes(searchText) ||
-    //   team.name.toLowerCase().includes(searchText) ||
-    //   team.url.toLowerCase().includes(searchText)
-    // );
   });
-  displayTeams(filteredTeams);
+}
+
+function searchTeams(e) {
+  const searchText = e.target.value.toLowerCase();
+  const teams = filterTeams(allTeams, searchText);
+  displayTeams(teams);
 }
 
 function initEvents() {
