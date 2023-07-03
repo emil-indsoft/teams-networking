@@ -57,7 +57,15 @@ function getTeamAsHTML(team) {
   </tr>`;
 }
 
+let previewDisplayTeams = [];
+
 function displayTeams(teams) {
+  if (previewDisplayTeams === teams) {
+    console.warn("same teams allready dispayed");
+    return;
+  }
+  previewDisplayTeams = teams;
+  console.info("display teams: ", teams);
   const teamsHTML = teams.map(getTeamAsHTML);
   $("#teamsTable tbody").innerHTML = teamsHTML.join("");
 }
@@ -125,8 +133,8 @@ function onSubmit(e) {
     createTeamRequest(team).then(status => {
       if (status.success) {
         //console.info("saved", JSON.parse(JSON.stringify(team)));
-        allTeams.push(team);
         team.id = status.id;
+        allTeams = [...allTeams, team];
         displayTeams(allTeams);
 
         $("#teamsForm").reset();
@@ -170,6 +178,7 @@ function initEvents() {
 
   $("#teamsForm").addEventListener("submit", onSubmit);
   $("#teamsForm").addEventListener("reset", () => {
+    displayTeams(allTeams);
     console.warn("reset");
     editId = undefined;
   });
