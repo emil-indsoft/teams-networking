@@ -60,10 +60,18 @@ function getTeamAsHTML(team) {
 let previewDisplayTeams = [];
 
 function displayTeams(teams) {
-  if (previewDisplayTeams === teams) {
+  if (teams === previewDisplayTeams) {
     console.warn("same teams allready dispayed");
     return;
   }
+
+  if (teams.length === previewDisplayTeams.length) {
+    if (teams.every((team, i) => team === previewDisplayTeams[i])) {
+      console.warn("same content");
+      return;
+    }
+  }
+
   previewDisplayTeams = teams;
   console.info("display teams: ", teams);
   const teamsHTML = teams.map(getTeamAsHTML);
