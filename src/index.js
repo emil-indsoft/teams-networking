@@ -1,11 +1,11 @@
 import "./style.css";
 
+let editId;
+let allTeams = [];
+
 function $(selector) {
   return document.querySelector(selector);
 }
-
-let editId;
-let allTeams = [];
 
 function deleteTeamRequest(id, callback) {
   return fetch("http://localhost:3000/teams-json/delete", {
@@ -17,21 +17,21 @@ function deleteTeamRequest(id, callback) {
   })
     .then(r => r.json())
     .then(status => {
-      if (callback && typeof callback === "function") {
+      if (typeof callback === "function") {
         callback(status);
       }
       return status;
     });
 }
 
-function updateTeamRequest() {
+function updateTeamRequest(team) {
   return fetch("http://localhost:3000/teams-json/update", {
     method: "PUT",
     headers: {
       "Content-Type": "application/json"
     },
-    body: JSON.stringify({ team }).then(r => r.json)
-  });
+    body: JSON.stringify(team)
+  }).then(r => r.json());
 }
 
 function createTeamRequest(team) {
@@ -51,7 +51,7 @@ function getTeamAsHTML(team) {
     <td>${team.name}</td>
     <td>${team.url}</td>
     <td>
-      <a data-id="${team.id}" class="remove-btn">&#10006;</a>
+      <a data-id="${team.id}" class="remove-btn">✖</a>
       <a data-id="${team.id}" class="edit-btn">&#9998;</a>
     </td>
   </tr>`;
@@ -59,7 +59,6 @@ function getTeamAsHTML(team) {
 
 function displayTeams(teams) {
   const teamsHTML = teams.map(getTeamAsHTML);
-  //console.warn("teamsHTML", teamsHTML);
   $("#teamsTable tbody").innerHTML = teamsHTML.join("");
 }
 
@@ -80,7 +79,6 @@ function loadTeams() {
 function startEdit(id) {
   editId = id;
   const team = allTeams.find(team => team.id == id);
-  //console.warn("start edit", team);
   setTeamValues(team);
 }
 
@@ -111,12 +109,14 @@ function onSubmit(e) {
 
   if (editId) {
     team.id = editId;
-    //console.warn("submit", team);
     updateTeamRequest(team).then(status => {
       if (status.success) {
-        //loadTeams();
-        const i = allTeams.findIndex(t => t.id == editId);
-        allTeams[i] = team;
+        // const i = allTeams.findIndex(t => t.id === editId);
+        // allTeams[i] = team;
+
+        const edited = allTeams.find(t => t.id === editId);
+        Object.assign(edited, team);
+
         displayTeams(allTeams);
         $("#teamsForm").reset();
       }
@@ -126,8 +126,7 @@ function onSubmit(e) {
       if (status.success) {
         // v.1
         //window.location.reload();
-
-        //v.2
+        // v.2
         loadTeams();
         $("#teamsForm").reset();
       }
@@ -158,7 +157,7 @@ function initEvents() {
       //console.warn("remove %o", id);
       deleteTeamRequest(id, status => {
         if (status.success) {
-          //console.warn("delete done", status);
+          console.warn("delete done", status);
           loadTeams();
         }
       });
@@ -170,7 +169,7 @@ function initEvents() {
 
   $("#teamsForm").addEventListener("submit", onSubmit);
   $("#teamsForm").addEventListener("reset", () => {
-    console.warn("resrt");
+    console.warn("reset");
     editId = undefined;
   });
 }
