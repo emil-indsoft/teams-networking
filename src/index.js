@@ -106,6 +106,7 @@ function getTeamValues() {
 
 function onSubmit(e) {
   e.preventDefault();
+
   const team = getTeamValues();
 
   if (editId) {
@@ -113,7 +114,10 @@ function onSubmit(e) {
     //console.warn("submit", team);
     updateTeamRequest(team).then(status => {
       if (status.success) {
-        loadTeams();
+        //loadTeams();
+        const i = allTeams.findIndex(t => t.id == editId);
+        allTeams[i] = team;
+        displayTeams(allTeams);
         $("#teamsForm").reset();
       }
     });
@@ -154,7 +158,7 @@ function initEvents() {
       //console.warn("remove %o", id);
       deleteTeamRequest(id, status => {
         if (status.success) {
-          console.warn("delete done", status);
+          //console.warn("delete done", status);
           loadTeams();
         }
       });
