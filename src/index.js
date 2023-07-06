@@ -147,7 +147,7 @@ async function onSubmit(e) {
     console.time("UPDATE");
     status = await updateTeamRequest(team);
     console.timeEnd("UPDATE");
-    console.warn("AFTER", success);
+    console.warn("AFTER");
     if (status.success) {
       allTeams = allTeams.map(t => {
         if (t.id === editId) {
