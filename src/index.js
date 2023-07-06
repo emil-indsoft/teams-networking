@@ -1,5 +1,5 @@
 import "./style.css";
-import { $, mask, unmask, filterElements } from "./utilities";
+import { $, filterElements, mask, unmask } from "./utilities";
 
 let editId;
 let allTeams = [];
@@ -51,13 +51,13 @@ function createTeamRequest(team) {
   }).then(r => r.json());
 }
 
-function getTeamAsHTML({ id, url, promotion, members, name }) {
+function getTeamAsHTML({ id, promotion, members, name, url }) {
   const displayUrl = url.startsWith("https://github.com/") ? url.substring(19) : url;
   return `<tr>
     <td>${promotion}</td>
     <td>${members}</td>
     <td>${name}</td>
-    <td><a href="${url}" target="blank">${displayUrl}</a></td>
+    <td><a href="${url}" target="_blank">${displayUrl}</a></td>
     <td>
       <a data-id="${id}" class="remove-btn">✖</a>
       <a data-id="${id}" class="edit-btn">&#9998;</a>
@@ -69,7 +69,7 @@ let previewDisplayTeams = [];
 
 function displayTeams(teams) {
   if (teams === previewDisplayTeams) {
-    console.warn("same teams allready dispayed");
+    console.warn("same teams already displayed");
     return;
   }
 
@@ -81,7 +81,7 @@ function displayTeams(teams) {
   }
 
   previewDisplayTeams = teams;
-  console.info("display teams: ", teams);
+  console.warn("displayTeams", teams);
   const teamsHTML = teams.map(getTeamAsHTML);
   $("#teamsTable tbody").innerHTML = teamsHTML.join("");
 }
@@ -128,6 +128,7 @@ async function onSubmit(e) {
   e.preventDefault();
 
   const team = getTeamValues();
+
   mask(form);
   let status;
 
@@ -141,8 +142,9 @@ async function onSubmit(e) {
     if (status.success) {
       allTeams = allTeams.map(t => {
         if (t.id === editId) {
-          //return team; // ok
-          //return { ...team }; //ok
+          console.warn("team", team);
+          // return team;
+          // return { ...team };
           return {
             ...t,
             ...team
@@ -152,13 +154,14 @@ async function onSubmit(e) {
       });
     }
   } else {
-    status = createTeamRequest(team);
+    status = await createTeamRequest(team);
     if (status.success) {
       //console.info("saved", JSON.parse(JSON.stringify(team)));
       team.id = status.id;
       allTeams = [...allTeams, team];
     }
   }
+
   if (status.success) {
     displayTeams(allTeams);
     $("#teamsForm").reset();
@@ -179,8 +182,8 @@ function initEvents() {
       mask(form);
       deleteTeamRequest(id, async ({ success }) => {
         if (success) {
-          await unmask(form);
-          loadTeams();
+          await loadTeams();
+          unmask(form);
         }
       });
     } else if (e.target.matches("a.edit-btn")) {
