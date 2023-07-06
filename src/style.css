@@ -111,6 +111,14 @@ header h2 {
   box-sizing: border-box;
 }
 
+.tbar {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 0 5px;
+  margin: 5px;
+}
+
 .remove-btn:hover {
   cursor: pointer;
   text-decoration: underline;
