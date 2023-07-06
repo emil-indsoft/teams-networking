@@ -134,33 +134,36 @@ function getTeamValues() {
   };
 }
 
-function onSubmit(e) {
+async function onSubmit(e) {
   e.preventDefault();
 
   const team = getTeamValues();
   showLoadingMask();
   if (editId) {
     team.id = editId;
-    updateTeamRequest(team).then(({ success }) => {
-      if (success) {
-        allTeams = allTeams.map(t => {
-          if (t.id === editId) {
-            //return team; // ok
-            //return { ...team }; //ok
-            return {
-              ...t,
-              ...team
-            };
-          }
-          return t;
-        });
+    console.warn("BEFORE");
+    console.time("UPDATE");
+    const { success } = await updateTeamRequest(team);
+    console.timeEnd("UPDATE");
+    console.warn("AFTER", success);
+    if (success) {
+      allTeams = allTeams.map(t => {
+        if (t.id === editId) {
+          //return team; // ok
+          //return { ...team }; //ok
+          return {
+            ...t,
+            ...team
+          };
+        }
+        return t;
+      });
 
-        displayTeams(allTeams);
-        $("#teamsForm").reset();
+      displayTeams(allTeams);
+      $("#teamsForm").reset();
 
-        hideLoadingMask();
-      }
-    });
+      hideLoadingMask();
+    }
   } else {
     createTeamRequest(team).then(status => {
       if (status.success) {
