@@ -115,8 +115,12 @@ header h2 {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  padding: 0 5px;
-  margin: 5px;
+  padding: 5px 0;
+  gap: 5px;
+}
+
+.tfill {
+  flex: 1;
 }
 
 .remove-btn:hover {
