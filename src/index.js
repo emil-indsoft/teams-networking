@@ -1,8 +1,10 @@
 import "./style.css";
 import { loadTeamsRequest, createTeamRequest, deleteTeamRequest, updateTeamRequest } from "./middleware";
 import { $, filterElements, mask, unmask, debounce } from "./utilities";
+//import { debounce } from "lodash"; //bad dont import all functions
 //import * as middleware from "./middleware";
 /// middleware.loadTeamRequest
+//import debounce from "lodash/debounce"; // better  -  import only the needed function
 
 let editId;
 let allTeams = [];
