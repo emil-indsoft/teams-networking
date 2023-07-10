@@ -126,12 +126,12 @@ async function onSubmit(e) {
   }
 }
 
-let timer;
 function debounce(fn, ms) {
+  let timer;
   console.info("debounce", ms);
 
   return function (e) {
-    console.warn("search...", timer, e.target.value);
+    console.warn("search...", timer);
 
     clearTimeout(timer);
     timer = setTimeout(function () {
@@ -143,6 +143,12 @@ function debounce(fn, ms) {
 }
 
 function initEvents() {
+  $("#removeSelected").addEventListener(
+    "click",
+    debounce(() => {
+      console.info("remove all");
+    }, 3000)
+  );
   $("#searchTeams").addEventListener(
     "input",
     debounce(e => {
