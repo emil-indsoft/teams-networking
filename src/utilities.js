@@ -1,6 +1,20 @@
 const x = 10;
 console.info("test");
 
+export function debounce(fn, ms) {
+  let timer;
+
+  return function (e) {
+    const context = this;
+    const arg = arguments;
+
+    clearTimeout(timer);
+    timer = setTimeout(function () {
+      fn.apply(context, arg);
+    }, ms);
+  };
+}
+
 export function $(selector) {
   return document.querySelector(selector);
 }
