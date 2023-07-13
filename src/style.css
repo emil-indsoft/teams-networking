@@ -86,12 +86,33 @@ header h2 {
 #teamsTable {
   width: 100%;
   border-collapse: collapse;
+  table-layout: fixed;
+}
+
+.action-btn {
+  cursor: pointer;
+  min-width: 34px;
+  min-height: 28px;
+}
+
+.remove-btn,
+.edit-btn {
+  display: none;
+  text-decoration: none;
+}
+
+#teamsTable tr:hover .action-btn {
+  display: inline-block;
 }
 
 #teamsTable th,
 #teamsTable td {
   border: 1px solid #057988;
   padding: 5px;
+  line-height: 30px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 
 #teamsTable th {
@@ -103,12 +124,21 @@ header h2 {
   background-color: #f2f2f2;
 }
 
-#teamsTable tfoot input {
+#teamsTable input {
   width: 100%;
 }
 
-#teamsTable tfoot input:not([type="image" i]) {
+#teamsTable input:not([type="image" i]) {
   box-sizing: border-box;
+}
+
+.table-actions {
+  font-display: swap;
+  width: 90px;
+}
+
+.select-all-column {
+  width: 40px;
 }
 
 .tbar {
@@ -124,14 +154,10 @@ header h2 {
 }
 
 .remove-btn:hover {
-  cursor: pointer;
-  text-decoration: underline;
   color: red;
 }
 
 .edit-btn:hover {
-  cursor: pointer;
-  text-decoration: underline;
   color: lightgreen;
 }
 
