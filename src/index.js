@@ -186,6 +186,16 @@ function initEvents() {
     });
   });
 
+  $("#teamsTable tbody").addEventListener(
+    "mouseover",
+    debounce(e => {
+      const cell = e.target.closest("td");
+      if (cell) {
+        cell.title = cell.offsetWidth < cell.scrollWidth ? cell.textContent : "";
+      }
+    })
+  );
+
   $("#teamsTable tbody").addEventListener("click", e => {
     if (e.target.matches(".remove-btn")) {
       const id = e.target.dataset.id;
