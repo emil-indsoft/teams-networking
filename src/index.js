@@ -132,15 +132,14 @@ async function onSubmit(e) {
 }
 
 async function removeSelected() {
-  mask(form);
+  mask("#main");
   const selected = document.querySelectorAll("input[name=selected]:checked");
-  selected.forEach(input => {
-    console.warn("input", input.value);
-    deleteTeamRequest(input.value);
-  });
-  loadTeams();
-  await unmask(form);
-  console.warn("selected", selected);
+  const ids = [...selected].map(input => input.value);
+  const promises = ids.map(id => deleteTeamRequest(id));
+  const statuses = await Promise.allSettled(promises);
+  console.warn("statuses:", statuses);
+  await loadTeams();
+  unmask("#main");
 }
 
 function initEvents() {
