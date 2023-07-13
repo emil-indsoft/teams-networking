@@ -1,6 +1,6 @@
 import "./style.css";
 import { loadTeamsRequest, createTeamRequest, deleteTeamRequest, updateTeamRequest } from "./middleware";
-import { $, filterElements, mask, unmask, debounce, sleep } from "./utilities";
+import { $, filterElements, mask, unmask, debounce, sleep, $$ } from "./utilities";
 //import { debounce } from "lodash"; //bad dont import all functions
 //import * as middleware from "./middleware";
 /// middleware.loadTeamRequest
@@ -134,7 +134,7 @@ async function onSubmit(e) {
 async function removeSelected() {
   mask("#main");
   //console.time("remove");
-  const selected = document.querySelectorAll("input[name=selected]:checked");
+  const selected = $$("input[name=selected]:checked");
   const ids = [...selected].map(input => input.value);
   const promises = ids.map(id => deleteTeamRequest(id));
   promises.push(sleep(2000));
@@ -154,6 +154,12 @@ function initEvents() {
       displayTeams(teams);
     }, 400)
   );
+
+  $("#selectAll").addEventListener("input", e => {
+    $$("input[name=selected]").forEach(check => {
+      check.checked = e.target.checked;
+    });
+  });
 
   $("#teamsTable tbody").addEventListener("click", e => {
     if (e.target.matches("a.remove-btn")) {

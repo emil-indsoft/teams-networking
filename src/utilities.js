@@ -18,6 +18,10 @@ export function debounce(fn, ms) {
 export function $(selector) {
   return document.querySelector(selector);
 }
+
+export function $$(selector) {
+  return document.querySelectorAll(selector);
+}
 /**
  *
  * @param {String|Element} el
